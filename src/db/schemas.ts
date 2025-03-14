@@ -1,10 +1,11 @@
 import { createId } from '@paralleldrive/cuid2'
+import { relations } from 'drizzle-orm'
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
 export const logs = sqliteTable('logs', {
   id: text('id').primaryKey().default(createId()),
-  category: text('category').notNull().default('general'),
   serverId: text('server_id').notNull(),
+  categoryId: text('category_id').notNull().references(() => categories.id),
   message: text('message').notNull(),
   createdAt: integer({ mode: 'timestamp' }).notNull().default(new Date()),
 })
@@ -37,3 +38,36 @@ export const categories = sqliteTable('categories', {
   name: text('name').notNull(),
   createdAt: integer({ mode: 'timestamp' }).notNull().default(new Date()),
 })
+
+export const serverRelations = relations(servers, ({ many, one }) => ({
+  logs: many(logs),
+  categories: many(categories),
+  owner: one(users, {
+    fields: [servers.ownerId],
+    references: [users.id],
+  }),
+  users: many(users),
+}))
+
+export const categoryRelations = relations(categories, ({ one }) => ({
+  server: one(servers, {
+    fields: [categories.serverId],
+    references: [servers.id],
+  }),
+}))
+
+export const logRelations = relations(logs, ({ one }) => ({
+  server: one(servers, {
+    fields: [logs.serverId],
+    references: [servers.id],
+  }),
+  category: one(categories, {
+    fields: [logs.categoryId],
+    references: [categories.id],
+  }),
+}))
+
+export const usersRelations = relations(users, ({ many }) => ({
+  servers: many(servers),
+}))
+
