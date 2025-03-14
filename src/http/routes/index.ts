@@ -7,6 +7,7 @@ import type { FastifyInstance } from 'fastify'
 
 import { env } from '@/env'
 
+import { authenticateUserRoute } from './users/authenticate-user-route'
 import { createUserAccountRoute } from './users/create-user-account-route'
 
 export function routes(app: FastifyInstance) {
@@ -27,6 +28,7 @@ export function routes(app: FastifyInstance) {
   app.register(fastifyMultipart)
 
   app.register(createUserAccountRoute)
+  app.register(authenticateUserRoute)
 }
 
 function getCorsOrigin() {

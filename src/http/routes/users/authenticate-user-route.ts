@@ -2,32 +2,28 @@ import type { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { createUserService } from '@/domain/services/users/create-user-service'
+import { authenticateUserService } from '@/domain/services/users/authenticate-user-service'
 import { passwordSchema } from '@/utils/password'
 
-export async function createUserAccountRoute(app: FastifyInstance) {
+export async function authenticateUserRoute(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
-    '/users',
+    '/login/password',
     {
       schema: {
         tags: ['users'],
-        summary: 'Create a new user account',
+        summary: 'Authenticate a user account',
         body: z.object({
-          name: z.string(),
           email: z.string().email(),
           password: passwordSchema,
-          avatarUrl: z.string().url(),
         }),
       },
     },
     async (req, res) => {
-      const { name, email, password, avatarUrl } = req.body
+      const { email, password } = req.body
 
-      const result = await createUserService({
-        name,
+      const result = await authenticateUserService({
         email,
         password,
-        avatarUrl,
       })
 
       if (result.status === 'error') return res.status(result.code).send(result)
