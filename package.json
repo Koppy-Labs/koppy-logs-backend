@@ -7,7 +7,8 @@
     "dev": "bun --watch run src/main.ts",
     "db:generate": "drizzle-kit generate --name",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "lint": "bun eslint --fix src --ext .ts"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.2.2",

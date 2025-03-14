@@ -5,7 +5,9 @@ import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 export const logs = sqliteTable('logs', {
   id: text('id').primaryKey().default(createId()),
   serverId: text('server_id').notNull(),
-  categoryId: text('category_id').notNull().references(() => categories.id),
+  categoryId: text('category_id')
+    .notNull()
+    .references(() => categories.id),
   message: text('message').notNull(),
   createdAt: integer({ mode: 'timestamp' }).notNull().default(new Date()),
 })
@@ -70,4 +72,3 @@ export const logRelations = relations(logs, ({ one }) => ({
 export const usersRelations = relations(users, ({ many }) => ({
   servers: many(servers),
 }))
-

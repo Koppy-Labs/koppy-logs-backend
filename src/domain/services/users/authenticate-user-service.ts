@@ -20,7 +20,7 @@ export async function authenticateUserService({
       code: 401,
     })
   }
-  
+
   const isPasswordValid = await comparePassword(password, user.password)
 
   if (!isPasswordValid) {
