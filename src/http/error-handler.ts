@@ -2,9 +2,9 @@ import type { FastifyInstance } from 'fastify'
 import type { FastifySchemaValidationError } from 'fastify/types/schema'
 import { ZodError } from 'zod'
 
-import { BadRequestError } from '@/shared/errors/bad-request-error'
-import { ConflictError } from '@/shared/errors/conflict-error'
-import { NotFoundError } from '@/shared/errors/not-found-error'
+import { BadRequestError } from '@/http/errors/bad-request-error'
+import { ConflictError } from '@/http/errors/conflict-error'
+import { NotFoundError } from '@/http/errors/not-found-error'
 
 type FastifyErrorHandler = FastifyInstance['errorHandler']
 

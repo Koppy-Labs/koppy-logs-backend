@@ -10,6 +10,7 @@ import { logger } from '@/adapters/logger'
 import { env } from '@/env'
 
 import { errorHandler } from './error-handler'
+import { routes } from './routes'
 import { transformSwaggerSchema } from './transfor-schema'
 
 const app: FastifyInstance = buildFastifyInstance()
@@ -51,6 +52,8 @@ export function startServer() {
   })
 
   app.setErrorHandler(errorHandler)
+
+  routes(app)
 
   app
     .listen({

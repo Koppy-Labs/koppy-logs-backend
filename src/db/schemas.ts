@@ -1,7 +1,8 @@
+import { createId } from '@paralleldrive/cuid2'
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
 export const logs = sqliteTable('logs', {
-  id: text('id').primaryKey(),
+  id: text('id').primaryKey().default(createId()),
   category: text('category').notNull().default('general'),
   serverId: text('server_id').notNull(),
   message: text('message').notNull(),
@@ -9,7 +10,7 @@ export const logs = sqliteTable('logs', {
 })
 
 export const servers = sqliteTable('servers', {
-  id: text('id').primaryKey(),
+  id: text('id').primaryKey().default(createId()),
   name: text('name').notNull(),
   ownerId: text('owner_id')
     .notNull()
@@ -20,7 +21,7 @@ export const servers = sqliteTable('servers', {
 })
 
 export const users = sqliteTable('users', {
-  id: text('id').primaryKey(),
+  id: text('id').primaryKey().default(createId()),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
   password: text('password').notNull(),
@@ -29,7 +30,7 @@ export const users = sqliteTable('users', {
 })
 
 export const categories = sqliteTable('categories', {
-  id: text('id').primaryKey(),
+  id: text('id').primaryKey().default(createId()),
   serverId: text('server_id')
     .notNull()
     .references(() => servers.id),
