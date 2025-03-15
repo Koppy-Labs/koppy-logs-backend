@@ -8,13 +8,13 @@ interface IPayload {
   sub: string
 }
 
-export async function validateJwtToken<T extends IPayload>(token: string) {
+export async function validateJwtToken(token: string) {
   const { payload } = await jose.jwtVerify(token, secret, {
     algorithms: ['HS256'],
     maxTokenAge: '7d',
   })
 
-  return payload as unknown as T
+  return payload
 }
 
 export async function signJwtToken({ sub }: IPayload) {
