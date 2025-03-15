@@ -2,19 +2,19 @@ import * as jose from 'jose'
 
 import { env } from '@/env'
 
-const secret = new TextEncoder().encode(env.JWT_SECRET)
+export const secret = new TextEncoder().encode(env.JWT_SECRET)
 
 interface IPayload {
   sub: string
 }
 
-export async function validateJwtToken(token: string) {
+export async function validateJwtToken<T extends IPayload>(token: string) {
   const { payload } = await jose.jwtVerify(token, secret, {
     algorithms: ['HS256'],
     maxTokenAge: '7d',
   })
 
-  return payload
+  return payload as unknown as T
 }
 
 export async function signJwtToken({ sub }: IPayload) {
