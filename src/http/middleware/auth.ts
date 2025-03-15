@@ -12,6 +12,9 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
       try {
         const payload = await validateJwtToken(req.headers.authorization)
 
+        if (!payload.sub)
+          return res.status(401).send({ message: 'Unauthorized.' })
+
         return { sub: payload.sub }
       } catch (error) {
         return res.status(401).send({ message: 'Unauthorized.' })
