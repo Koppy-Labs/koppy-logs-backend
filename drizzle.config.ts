@@ -3,9 +3,9 @@ import { defineConfig } from 'drizzle-kit'
 import { env } from './src/env'
 
 export default defineConfig({
-  schema: 'src/db/schemas.ts',
+  schema: 'src/db/schemas/index.ts',
   out: 'priv/migrations',
-  dialect: 'turso',
+  dialect: 'postgresql',
   dbCredentials: { url: env.DATABASE_URL },
   migrations: {
     prefix: 'timestamp',

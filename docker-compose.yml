@@ -1,0 +1,17 @@
+name: koppy-logs
+
+services:
+  db:
+    container_name: koppy_logs_db
+    image: bitnami/postgresql:latest
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: koppy_logs
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  postgres_data:
