@@ -3,10 +3,6 @@ import fastifyPlugin from 'fastify-plugin'
 
 import { validateJwtToken } from '@/utils/jwt'
 
-type Payload = {
-  sub: string
-}
-
 export const auth = fastifyPlugin(async (app: FastifyInstance) => {
   app.addHook('preHandler', async (req, res) => {
     req.getCurrentUserId = async () => {

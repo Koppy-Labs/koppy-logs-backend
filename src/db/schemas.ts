@@ -18,6 +18,7 @@ export const servers = sqliteTable('servers', {
   ownerId: text('owner_id')
     .notNull()
     .references(() => users.id),
+
   imageUrl: text('image_url').notNull(),
   plan: text('plan').notNull().default('free'),
   createdAt: integer({ mode: 'timestamp' }).notNull().default(new Date()),
@@ -48,7 +49,6 @@ export const serverRelations = relations(servers, ({ many, one }) => ({
     fields: [servers.ownerId],
     references: [users.id],
   }),
-  users: many(users),
 }))
 
 export const categoryRelations = relations(categories, ({ one }) => ({
