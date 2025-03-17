@@ -29,3 +29,7 @@ export async function findUserById({ id }: { id: string }) {
 export async function updateUser({ id, data }: { id: string; data: User }) {
   await db.update(users).set(data).where(eq(users.id, id))
 }
+
+export async function deleteUser({ id }: { id: string }) {
+  await db.delete(users).where(eq(users.id, id))
+}
