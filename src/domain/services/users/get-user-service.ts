@@ -6,8 +6,11 @@ export async function getUserService({ id }: { id: string }) {
 
   if (!user) return error({ message: 'User not found', code: 404 })
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { password, ...userWithoutPassword } = user
+
   return success({
-    data: user,
+    data: userWithoutPassword,
     code: 200,
   })
 }

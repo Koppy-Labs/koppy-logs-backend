@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm'
 
-import type { InsertUserModel } from '@/domain/entities/user'
+import type { InsertUserModel, UpdateUserModel } from '@/domain/entities/user'
 import { BadRequestError } from '@/http/errors/bad-request-error'
 
 import { db } from '../index'
@@ -31,7 +31,7 @@ export async function updateUser({
   data,
 }: {
   id: string
-  data: InsertUserModel
+  data: UpdateUserModel
 }) {
   await db.update(users).set(data).where(eq(users.id, id))
 }

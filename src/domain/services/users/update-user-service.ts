@@ -20,10 +20,7 @@ export async function updateUserService({
 
   await updateUser({
     id,
-    data: {
-      ...user,
-      ...data,
-    },
+    data,
   })
 
   return success({
