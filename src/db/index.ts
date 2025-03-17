@@ -1,4 +1,4 @@
-import { drizzle } from 'drizzle-orm/libsql/node'
+import { drizzle } from 'drizzle-orm/node-postgres'
 
 import { env } from '@/env'
 

@@ -10,6 +10,7 @@ import { env } from '@/env'
 import { authenticateUserRoute } from './users/authenticate-user-route'
 import { createUserAccountRoute } from './users/create-user-account-route'
 import { getUserRoute } from './users/get-user-route'
+import { updateUserRoute } from './users/update-user-route'
 
 export function routes(app: FastifyInstance) {
   if (env.APP_ENV === 'dev')
@@ -31,6 +32,7 @@ export function routes(app: FastifyInstance) {
   app.register(createUserAccountRoute)
   app.register(authenticateUserRoute)
   app.register(getUserRoute)
+  app.register(updateUserRoute)
 }
 
 function getCorsOrigin() {

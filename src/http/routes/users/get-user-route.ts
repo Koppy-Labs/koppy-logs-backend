@@ -14,7 +14,7 @@ export async function getUserRoute(app: FastifyInstance) {
         summary: 'Get user by ID',
       },
       handler: async (req, res) => {
-        await req.getCurrentUserId() // validate the JWT token
+        await req.getCurrentUserId()
 
         const { id } = req.params as { id: string }
 
