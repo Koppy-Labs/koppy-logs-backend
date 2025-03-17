@@ -21,18 +21,13 @@ export async function updateUserRoute(app: FastifyInstance) {
           avatarUrl: z.string().optional(),
         }),
       },
-      handler: async (req, res) => {
+      handler: async (req) => {
         await req.getCurrentUserId()
 
         const { id } = req.params as { id: string }
         const updateData = req.body as UpdateUserModel
 
-        try {
-          await updateUserService({ id, data: updateData })
-          return res.status(200).send({ message: 'User updated successfully' })
-        } catch (error) {
-          return res.status(500).send({ error: 'Failed to update user' })
-        }
+        await updateUserService({ id, data: updateData })
       },
     })
 }
