@@ -2,8 +2,8 @@ import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { findUserById, updateUser } from '@/db/repositories/users'
 import { UpdateUserModel } from '@/domain/entities/user'
+import { updateUserService } from '@/domain/services/users/update-user-service'
 import { auth } from '@/http/middleware/auth'
 
 export async function updateUserRoute(app: FastifyInstance) {
@@ -28,19 +28,7 @@ export async function updateUserRoute(app: FastifyInstance) {
         const updateData = req.body as UpdateUserModel
 
         try {
-          const existingUser = await findUserById({ id })
-
-          if (!existingUser) {
-            return res.status(404).send({ error: 'User not found' })
-          }
-
-          await updateUser({
-            id,
-            data: {
-              ...existingUser,
-              ...updateData,
-            },
-          })
+          await updateUserService({ id, data: updateData })
           return res.status(200).send({ message: 'User updated successfully' })
         } catch (error) {
           return res.status(500).send({ error: 'Failed to update user' })
