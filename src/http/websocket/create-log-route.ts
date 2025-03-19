@@ -13,6 +13,7 @@ export async function createLogRoute(app: FastifyInstance) {
     },
     async (socket) => {
       socket.on('message', async (message) => {
+        console.log('message', message)
         const data = JSON.parse(message.toString())
         await createLogService(data)
       })
