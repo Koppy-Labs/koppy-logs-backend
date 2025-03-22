@@ -62,10 +62,20 @@ export async function getCategoryByIdAndServerId({
 
   return category[0]
 }
-export async function fetchCategories({ serverId }: { serverId: string }) {
+export async function fetchCategories({
+  serverId,
+  limit = 50,
+  offset = 0,
+}: {
+  serverId: string
+  limit?: number
+  offset?: number
+}) {
   const queriedCategories = await db
     .select()
     .from(categories)
+    .limit(limit)
+    .offset(offset)
     .where(eq(categories.serverId, serverId))
 
   return queriedCategories
