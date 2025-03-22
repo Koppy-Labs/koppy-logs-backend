@@ -25,11 +25,11 @@ export async function deleteCategoryRoute(app: FastifyInstance) {
             401: z.object({
               message: z.literal('Unauthorized'),
             }),
-            400: z.object({
-              message: z.literal('Category not found'),
-            }),
             403: z.object({
               message: z.literal('Forbidden'),
+            }),
+            404: z.object({
+              message: z.literal('Category not found'),
             }),
           },
         },

@@ -13,7 +13,7 @@ export async function updateCategoryRoute(app: FastifyInstance) {
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
     .put(
-      '/serverS/:serverId/categories/:id',
+      '/servers/:serverId/categories/:id',
       {
         schema: {
           tags: ['categories'],

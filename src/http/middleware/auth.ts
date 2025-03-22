@@ -39,7 +39,8 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
           ),
         )
 
-      if (!membership) return res.status(401).send({ message: 'Unauthorized.' })
+      if (!membership || membership.length <= 0)
+        return res.status(401).send({ message: 'Unauthorized.' })
 
       return {
         id: membership[0].id,
