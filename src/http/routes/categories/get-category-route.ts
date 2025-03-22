@@ -55,7 +55,7 @@ export async function getCategoryRoute(app: FastifyInstance) {
             message: 'Forbidden',
           })
 
-        const result = await getCategoryService({ id })
+        const result = await getCategoryService({ id, serverId })
 
         if (result.status === 'error')
           return res.status(result.code).send({

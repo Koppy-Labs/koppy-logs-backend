@@ -46,6 +46,22 @@ export async function getCategoryById({ id }: Pick<Category, 'id'>) {
   return category[0]
 }
 
+export async function getCategoryByIdAndServerId({
+  id,
+  serverId,
+}: {
+  id: string
+  serverId: string
+}) {
+  const category = await db
+    .select()
+    .from(categories)
+    .where(and(eq(categories.id, id), eq(categories.serverId, serverId)))
+
+  if (!category || category.length === 0) return null
+
+  return category[0]
+}
 export async function fetchCategories({ serverId }: { serverId: string }) {
   const queriedCategories = await db
     .select()
