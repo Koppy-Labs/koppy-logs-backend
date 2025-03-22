@@ -10,6 +10,7 @@ import { env } from '@/env'
 import { createCategoryRoute } from './categories/create-category-route'
 import { deleteCategoryRoute } from './categories/delete-category-route'
 import { fetchCategoriesRoute } from './categories/fetch-categories-route'
+import { getCategoryRoute } from './categories/get-category-route'
 import { updateCategoryRoute } from './categories/update-category-route'
 import { createServerRoute } from './server/create-server-route'
 import { authenticateUserRoute } from './users/authenticate-user-route'
@@ -45,6 +46,7 @@ export function routes(app: FastifyInstance) {
   app.register(updateCategoryRoute)
   app.register(deleteCategoryRoute)
   app.register(fetchCategoriesRoute)
+  app.register(getCategoryRoute)
 }
 
 function getCorsOrigin() {
