@@ -43,7 +43,7 @@ describe('FetchCategoriesService', () => {
     )
   })
 
-  it.only('should not be able to get all categories by server id if the server does not exist', async () => {
+  it('should not be able to get all categories by server id if the server does not exist', async () => {
     const result = await sut({ serverId: 'non-existent-server-id' })
 
     expect(result).toBeDefined()
