@@ -7,8 +7,10 @@
     "dev": "bun --watch run src/main.ts",
     "db:generate": "drizzle-kit generate --name",
     "db:migrate": "drizzle-kit migrate",
+    "db:migrate:test": "bun --env-file=.env.test drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "lint": "bun eslint --fix src --ext .ts"
+    "lint": "bun eslint --fix src --ext .ts",
+    "test": "bun --env-file=.env.test vitest --watch"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.2.2",
@@ -16,7 +18,10 @@
     "@types/ws": "^8.18.0",
     "drizzle-kit": "^0.30.5",
     "eslint": "8.57.0",
-    "eslint-plugin-simple-import-sort": "^12.1.1"
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "unplugin-swc": "^1.5.1",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.0.9"
   },
   "peerDependencies": {
     "typescript": "^5"

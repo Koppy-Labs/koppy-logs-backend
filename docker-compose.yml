@@ -5,13 +5,13 @@ services:
     container_name: koppy_logs_db
     image: bitnami/postgresql:latest
     environment:
-      POSTGRES_USER: docker
-      POSTGRES_PASSWORD: docker
-      POSTGRES_DB: koppy_logs
-    expose:
-      - 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: POSTGRES_DB
+      POSTGRESQL_REPLICATION_USE_PASSFILE: "no"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./priv/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
     ports:
       - 5432:5432
 

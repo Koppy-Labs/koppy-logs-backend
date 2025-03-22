@@ -10,16 +10,17 @@ export async function createUserService({
   password,
   avatarUrl,
 }: InsertUserModel) {
-  const cacheKey = `users:${email}`
+  const normalizedEmail = email.toLowerCase()
+  const cacheKey = `users:${normalizedEmail}`
   const cachedUser = await getCache<User>(cacheKey)
 
   if (cachedUser)
-    return success({
-      data: cachedUser,
-      code: 200,
+    return error({
+      message: 'Email already in use' as const,
+      code: 409,
     })
 
-  const userWithSameEmail = await findUserByEmail({ email })
+  const userWithSameEmail = await findUserByEmail({ email: normalizedEmail })
 
   if (userWithSameEmail) {
     await setCache(
@@ -39,7 +40,7 @@ export async function createUserService({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { password: _password, ...createdUser } = await insertUser({
     name,
-    email,
+    email: normalizedEmail,
     password: hashedPassword,
     avatarUrl,
   })
@@ -47,7 +48,7 @@ export async function createUserService({
   await setCache(cacheKey, JSON.stringify(createdUser), ONE_DAY_IN_SECONDS)
 
   return success({
-    data: createdUser, // data is beeing passed for unit testest, and wont be used in the response
-    code: 204,
+    data: createdUser,
+    code: 201,
   })
 }
