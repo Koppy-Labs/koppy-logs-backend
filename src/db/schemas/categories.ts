@@ -5,7 +5,7 @@ import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { servers } from './servers'
 
 export const categories = pgTable('categories', {
-  id: text('id').primaryKey().default(createId()),
+  id: text('id').primaryKey().$default(createId),
   serverId: text('server_id')
     .notNull()
     .references(() => servers.id),
