@@ -1,4 +1,5 @@
 export * from './categories'
 export * from './logs'
 export * from './servers'
+export * from './servers-members'
 export * from './users'
