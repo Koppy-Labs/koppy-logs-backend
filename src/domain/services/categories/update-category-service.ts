@@ -5,10 +5,10 @@ import { error, success } from '@/utils/api-response'
 export async function updateCategoryService({ id, data }: UpdateCategoryModel) {
   const category = await getCategoryById({ id })
 
-  if (category)
+  if (!category)
     return error({
-      message: 'Category already exists',
-      code: 400,
+      message: 'Category not found' as const,
+      code: 404,
     })
 
   const newCategory = await updateCategory({ id, data })

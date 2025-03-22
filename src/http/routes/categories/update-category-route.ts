@@ -24,6 +24,15 @@ export async function updateCategoryRoute(app: FastifyInstance) {
           body: z.object({
             name: z.string(),
           }),
+          response: {
+            204: z.object({}),
+            400: z.object({
+              message: z.literal('Category not found'),
+            }),
+            403: z.object({
+              message: z.literal('Forbidden'),
+            }),
+          },
         },
       },
       async (req, res) => {
@@ -48,7 +57,7 @@ export async function updateCategoryRoute(app: FastifyInstance) {
 
         if (cannot('update', authServer))
           return res.status(403).send({
-            message: 'Unauthorized' as const,
+            message: 'Forbidden' as const,
           })
 
         const { name } = req.body
