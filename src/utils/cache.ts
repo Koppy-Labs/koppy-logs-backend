@@ -10,9 +10,17 @@ export const setCache = async (key: string, value: string, ttl: number) => {
 }
 
 export const getCache = async <T>(key: string): Promise<T | null> => {
-  const cachedData = await redis.get(key)
+  try {
+    const cachedData = await redis.get(key)
 
-  return cachedData ? (JSON.parse(cachedData) as T) : null
+    if (!cachedData) return null
+
+    return JSON.parse(cachedData) as T
+  } catch (error) {
+    console.error(`Failed to get or parse cache for key ${key}:`, error)
+
+    return null
+  }
 }
 
 export const deleteCache = async (key: string) => {
