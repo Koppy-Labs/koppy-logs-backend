@@ -1,6 +1,6 @@
 {
-  "id": "119ba80b-7b73-4a3f-9ff7-1791119f0de6",
-  "prevId": "af621357-b701-44a2-ad71-f3f179ca7ecb",
+  "id": "6cea50d1-e09d-4fa6-ab80-30e5057dec09",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -12,8 +12,7 @@
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "'w2a8f7x7nvnj4fa7ld70njks'"
+          "notNull": true
         },
         "server_id": {
           "name": "server_id",
@@ -130,8 +129,7 @@
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "'lnn0e63ihh09qdb6s4559zbx'"
+          "notNull": true
         },
         "name": {
           "name": "name",
@@ -209,13 +207,13 @@
           "name": "server_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "user_id": {
           "name": "user_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "role": {
           "name": "role",
@@ -238,7 +236,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         },
         "server_members_user_id_users_id_fk": {
@@ -251,7 +249,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -269,8 +267,7 @@
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "default": "'pgbfdjwxyo0cy036ubwnvbeu'"
+          "notNull": true
         },
         "name": {
           "name": "name",

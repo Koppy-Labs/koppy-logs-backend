@@ -5,10 +5,18 @@ import { createServer } from '@/db/repositories/server'
 import type { InsertServerModel } from '@/domain/entities/server'
 import type { RemoveNull } from '@/types/remove-null'
 
+import { makeUser } from './make-user'
+
 export async function makeServer(
   server: RemoveNull<Partial<InsertServerModel>> = {},
 ) {
   const rawServer = makeRawServer(server)
+
+  // If no ownerId is provided, create a user first
+  if (!rawServer.ownerId) {
+    const user = await makeUser()
+    rawServer.ownerId = user.id
+  }
 
   return await createServer({
     ...rawServer,
