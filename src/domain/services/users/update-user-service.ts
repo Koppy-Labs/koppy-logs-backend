@@ -1,4 +1,8 @@
-import { findUserById, updateUser } from '@/db/repositories/users'
+import {
+  findUserByEmail,
+  findUserById,
+  updateUser,
+} from '@/db/repositories/users'
 import { UpdateUserModel, type User } from '@/domain/entities/user'
 import { error, success } from '@/utils/api-response'
 import { getCache, ONE_DAY_IN_SECONDS, setCache } from '@/utils/cache'
@@ -14,19 +18,24 @@ export async function updateUserService({
   const cachedUser = await getCache<User>(cacheKey)
 
   if (!cachedUser) {
-    return error({
-      message: 'User not found' as const,
-      code: 404,
-    })
+    const user = await findUserById({ id })
+
+    if (!user)
+      return error({
+        message: 'User not found' as const,
+        code: 404,
+      })
   }
 
-  const user = await findUserById({ id })
+  if (data.email) {
+    const emailAlreadyInUse = await findUserByEmail({ email: data.email })
 
-  if (!user)
-    return error({
-      message: 'User not found' as const,
-      code: 404,
-    })
+    if (emailAlreadyInUse)
+      return error({
+        message: 'Email already in use' as const,
+        code: 409,
+      })
+  }
 
   const updatedUser = await updateUser({
     id,
