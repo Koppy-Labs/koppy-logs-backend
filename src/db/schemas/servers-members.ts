@@ -11,8 +11,12 @@ export const serverMemberRoles = pgEnum('server_member_roles', [
 
 export const serverMembers = pgTable('server_members', {
   id: text('id').primaryKey(),
-  serverId: text('server_id').references(() => servers.id),
-  userId: text('user_id').references(() => users.id),
+  serverId: text('server_id')
+    .references(() => servers.id, { onDelete: 'cascade' })
+    .notNull(),
+  userId: text('user_id')
+    .references(() => users.id, { onDelete: 'cascade' })
+    .notNull(),
 
   role: serverMemberRoles('role').notNull().default('member'),
 })
