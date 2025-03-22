@@ -2,30 +2,26 @@ import type { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { findUserById } from '@/db/repositories/users'
-import { updateCategoryService } from '@/domain/services/categories/update-category-service'
+import { deleteCategoryService } from '@/domain/services/categories/delete-category-service'
 import { auth } from '@/http/middleware/auth'
 import { serverSchema } from '@/perms/models/server'
 import { getUserPermissions } from '@/utils/get-user-permissions'
 
-export async function updateCategoryRoute(app: FastifyInstance) {
+export async function deleteCategoryRoute(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .put(
-      '/serverS/:serverId/categories/:id',
+    .delete(
+      '/servers/:serverId/categories/:categoryId',
       {
         schema: {
           tags: ['categories'],
           params: z.object({
             serverId: z.string(),
-            id: z.string(),
-          }),
-          body: z.object({
-            name: z.string(),
+            categoryId: z.string(),
           }),
           response: {
-            204: z.null(),
+            204: z.object({}),
             401: z.object({
               message: z.literal('Unauthorized'),
             }),
@@ -40,34 +36,29 @@ export async function updateCategoryRoute(app: FastifyInstance) {
       },
       async (req, res) => {
         const { sub: userId } = await req.getCurrentUserId()
-        const { id, serverId } = req.params
+        const { serverId, categoryId } = req.params
         const { role } = await req.getMembership({
           userId,
           serverId,
         })
 
-        const user = await findUserById({ id: userId })
+        const authServer = serverSchema.parse({
+          id: serverId,
+          ownerId: userId,
+        })
 
         const { cannot } = getUserPermissions({
-          ...user,
+          id: userId,
           role: role as 'ADMIN' | 'MEMBER',
         })
 
-        const authServer = serverSchema.parse({
-          id: serverId,
-          ownerId: user.id,
-        })
-
-        if (cannot('update', authServer))
+        if (cannot('delete', authServer))
           return res.status(403).send({
-            message: 'Forbidden' as const,
+            message: 'Forbidden',
           })
 
-        const { name } = req.body
-
-        const result = await updateCategoryService({
-          id,
-          data: { name, serverId },
+        const result = await deleteCategoryService({
+          id: categoryId,
         })
 
         if (result.status === 'error')

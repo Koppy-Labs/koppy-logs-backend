@@ -55,3 +55,7 @@ export async function updateCategory({ id, data }: UpdateCategoryModel) {
 
   return category
 }
+
+export async function deleteCategory({ id }: Pick<Category, 'id'>) {
+  await db.delete(categories).where(eq(categories.id, id))
+}
