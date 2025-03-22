@@ -8,6 +8,7 @@ import type { FastifyInstance } from 'fastify'
 import { env } from '@/env'
 
 import { createLogRoute } from '../websocket/create-log-route'
+import { createCategoryRoute } from './categories/create-categorie-route'
 import { authenticateUserRoute } from './users/authenticate-user-route'
 import { createUserAccountRoute } from './users/create-user-account-route'
 import { getUserRoute } from './users/get-user-route'
@@ -34,6 +35,7 @@ export function routes(app: FastifyInstance) {
   app.register(authenticateUserRoute)
   app.register(getUserRoute)
   app.register(updateUserRoute)
+  app.register(createCategoryRoute)
   app.register(createLogRoute)
 }
 
