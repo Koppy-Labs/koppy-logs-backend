@@ -47,7 +47,7 @@ export async function createUserService({
   await setCache(cacheKey, JSON.stringify(createdUser), ONE_DAY_IN_SECONDS)
 
   return success({
-    data: createdUser,
+    data: createdUser, // data is beeing passed for unit testest, and wont be used in the response
     code: 204,
   })
 }

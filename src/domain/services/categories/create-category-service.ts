@@ -14,12 +14,13 @@ export async function createCategoryService({
   const cachedCategory = await getCache<Category>(cacheKey)
 
   if (cachedCategory)
-    return success({
-      data: cachedCategory,
-      code: 200,
+    return error({
+      message: 'Category already exists',
+      code: 400,
     })
 
   const category = await getCategoryByName({ serverId, name })
+
   if (category) {
     await setCache(cacheKey, JSON.stringify(category), ONE_DAY_IN_SECONDS)
 

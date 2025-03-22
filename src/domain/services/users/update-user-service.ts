@@ -14,14 +14,19 @@ export async function updateUserService({
   const cachedUser = await getCache<User>(cacheKey)
 
   if (!cachedUser) {
-    const user = await findUserById({ id })
-
-    if (!user)
-      return error({
-        message: 'User not found' as const,
-        code: 404,
-      })
+    return error({
+      message: 'User not found' as const,
+      code: 404,
+    })
   }
+
+  const user = await findUserById({ id })
+
+  if (!user)
+    return error({
+      message: 'User not found' as const,
+      code: 404,
+    })
 
   const updatedUser = await updateUser({
     id,
