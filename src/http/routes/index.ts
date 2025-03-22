@@ -7,7 +7,7 @@ import type { FastifyInstance } from 'fastify'
 
 import { env } from '@/env'
 
-import { createCategoryRoute } from './categories/create-categorie-route'
+import { createCategoryRoute } from './categories/create-category-route'
 import { authenticateUserRoute } from './users/authenticate-user-route'
 import { createUserAccountRoute } from './users/create-user-account-route'
 import { getUserRoute } from './users/get-user-route'

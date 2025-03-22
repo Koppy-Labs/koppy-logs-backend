@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { createCategoryService } from '@/domain/services/categories/create-categorie-service'
+import { createCategoryService } from '@/domain/services/categories/create-category-service'
 
 export async function createCategoryRoute(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
