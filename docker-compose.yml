@@ -15,5 +15,17 @@ services:
     ports:
       - 5432:5432
 
+  redis:
+    container_name: koppy_logs_redis
+    image: bitnami/redis:latest
+    ports:
+      - 6379:6379
+    environment:
+      - REDIS_PASSWORD=redis
+    volumes:
+      - redis-data:/data
+
+
 volumes:
   postgres_data:
+  redis-data:
