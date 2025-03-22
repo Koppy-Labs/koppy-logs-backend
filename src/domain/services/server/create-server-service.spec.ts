@@ -5,7 +5,7 @@ import { createServerService } from './create-server-service'
 
 let sut: typeof createServerService
 
-describe('UpdateUserService', () => {
+describe('CreateServerService', () => {
   beforeAll(async () => {
     sut = createServerService
   })

@@ -6,12 +6,12 @@ import { createCategoryService } from './create-category-service'
 
 let sut: typeof createCategoryService
 
-describe('CreateUserService', () => {
+describe('CreateCategoryService', () => {
   beforeAll(async () => {
     sut = createCategoryService
   })
 
-  it('should be able to create a valid user', async () => {
+  it('should be able to create a valid category', async () => {
     const user = await makeUser()
     const server = await makeServer({
       ownerId: user.id,
@@ -25,7 +25,7 @@ describe('CreateUserService', () => {
     expect(result).toBeDefined()
     expect(result.status).toBe('ok')
     expect(result.code).toBe(201)
-    if (result.status !== 'ok') throw new Error('User not created')
+    if (result.status !== 'ok') throw new Error('Category not created')
 
     expect(result.data).toEqual(
       expect.objectContaining({

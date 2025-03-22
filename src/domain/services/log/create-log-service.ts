@@ -7,7 +7,7 @@ import { getCache, ONE_MONTH_IN_SECONDS, setCache } from '@/utils/cache'
 import { logPubSub } from '@/utils/log-pub-sub'
 
 export async function createLogService(log: InsertLogModel) {
-  const categoryCacheKey = `categories:${log.serverId}`
+  const categoryCacheKey = `categories:${log.serverId}:${log.categoryId}`
   const cachedCategory = await getCache<Category>(categoryCacheKey)
 
   if (!cachedCategory) {

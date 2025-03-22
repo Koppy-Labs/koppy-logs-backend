@@ -25,7 +25,7 @@ describe('GetCategoryService', () => {
     expect(result).toBeDefined()
     expect(result.status).toBe('ok')
     expect(result.code).toBe(200)
-    if (result.status !== 'ok') throw new Error('User not created')
+    if (result.status !== 'ok') throw new Error('Category not found')
 
     expect(result.data).toEqual(
       expect.objectContaining({
@@ -36,9 +36,9 @@ describe('GetCategoryService', () => {
     )
   })
 
-  it('should not be able to get a user by id if the user does not exist', async () => {
+  it('should not be able to get a category by id if the category does not exist', async () => {
     const result = await sut({
-      id: 'non-existent-user-id',
+      id: 'non-existent-category-id',
       serverId: 'non-existent-server-id',
     })
 

@@ -30,7 +30,7 @@ export async function updateUserService({
   if (data.email) {
     const emailAlreadyInUse = await findUserByEmail({ email: data.email })
 
-    if (emailAlreadyInUse)
+    if (emailAlreadyInUse && emailAlreadyInUse.id !== id)
       return error({
         message: 'Email already in use' as const,
         code: 409,
