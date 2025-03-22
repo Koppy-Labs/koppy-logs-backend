@@ -4,4 +4,4 @@ async function main() {
   startServer()
 }
 
-main().catch((err) => console.log('Failed starting Koppy Logs.', err))
+main().catch((err) => console.log('Failed starting Koppy Logs', err))

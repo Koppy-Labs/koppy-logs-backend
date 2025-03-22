@@ -1,6 +1,10 @@
 import { and, eq } from 'drizzle-orm'
 
-import { InsertCategoryModel } from '@/domain/entities/categories'
+import {
+  type Category,
+  InsertCategoryModel,
+  type UpdateCategoryModel,
+} from '@/domain/entities/categories'
 
 import { db } from '..'
 import { categories } from '../schemas'
@@ -29,4 +33,25 @@ export async function getCategoryByName({
   if (!category || category.length === 0) return null
 
   return category[0]
+}
+
+export async function getCategoryById({ id }: Pick<Category, 'id'>) {
+  const category = await db
+    .select()
+    .from(categories)
+    .where(eq(categories.id, id))
+
+  if (!category || category.length === 0) return null
+
+  return category[0]
+}
+
+export async function updateCategory({ id, data }: UpdateCategoryModel) {
+  const [category] = await db
+    .update(categories)
+    .set(data)
+    .where(eq(categories.id, id))
+    .returning()
+
+  return category
 }
