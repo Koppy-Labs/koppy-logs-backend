@@ -13,16 +13,24 @@ export async function createUserService({
 
   if (userWithSameEmail)
     return error({
-      message: 'Email already in use',
-      code: 400,
+      message: 'Email already in use' as const,
+      code: 409,
     })
 
   const hashedPassword = await hashPassword(password)
 
-  await insertUser({ name, email, password: hashedPassword, avatarUrl })
+  const createdUser = await insertUser({
+    name,
+    email,
+    password: hashedPassword,
+    avatarUrl,
+  })
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { password: _password, ...user } = createdUser
 
   return success({
-    data: null,
+    data: user,
     code: 204,
   })
 }

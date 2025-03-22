@@ -16,6 +16,21 @@ export async function getUserRoute(app: FastifyInstance) {
         params: z.object({
           id: z.string(),
         }),
+        response: {
+          200: z.object({
+            user: z.object({
+              id: z.string(),
+              name: z.string(),
+              email: z.string(),
+              avatarUrl: z.string(),
+              createdAt: z.date(),
+              updatedAt: z.date(),
+            }),
+          }),
+          404: z.object({
+            message: z.literal('User not found'),
+          }),
+        },
       },
       handler: async (req, res) => {
         await req.getCurrentUserId()
@@ -25,9 +40,13 @@ export async function getUserRoute(app: FastifyInstance) {
         const result = await getUserService({ id })
 
         if (result.status === 'error')
-          return res.status(result.code).send(result)
+          return res.status(result.code).send({
+            message: result.message,
+          })
 
-        return res.status(result.code).send(result.data)
+        return res.status(result.code).send({
+          user: result.data,
+        })
       },
     })
 }

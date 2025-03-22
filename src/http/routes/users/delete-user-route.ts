@@ -16,13 +16,26 @@ export async function deleteUserRoute(app: FastifyInstance) {
         params: z.object({
           id: z.string(),
         }),
+        response: {
+          204: z.null(),
+          404: z.object({
+            message: z.literal('User not found'),
+          }),
+        },
       },
-      handler: async (req) => {
+      handler: async (req, res) => {
         await req.getCurrentUserId()
 
         const { id } = req.params
 
-        await deleteUserService({ id })
+        const result = await deleteUserService({ id })
+
+        if (result.status === 'error')
+          return res.status(result.code).send({
+            message: result.message,
+          })
+
+        return res.status(result.code).send()
       },
     })
 }

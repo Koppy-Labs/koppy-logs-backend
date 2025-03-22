@@ -22,14 +22,25 @@ export async function updateUserRoute(app: FastifyInstance) {
         params: z.object({
           id: z.string(),
         }),
+        response: {
+          204: z.null(),
+          404: z.object({
+            message: z.literal('User not found'),
+          }),
+        },
       },
-      handler: async (req) => {
+      handler: async (req, res) => {
         await req.getCurrentUserId()
 
         const { id } = req.params
         const updateData = req.body
 
-        await updateUserService({ id, data: updateData })
+        const result = await updateUserService({ id, data: updateData })
+
+        if (result.status === 'error')
+          return res.status(result.code).send({
+            message: result.message,
+          })
       },
     })
 }

@@ -18,6 +18,12 @@ export async function createUserAccountRoute(app: FastifyInstance) {
           password: passwordSchema,
           avatarUrl: z.string().url(),
         }),
+        response: {
+          204: z.null(),
+          409: z.object({
+            message: z.literal('Email already in use'),
+          }),
+        },
       },
     },
     async (req, res) => {
@@ -30,9 +36,12 @@ export async function createUserAccountRoute(app: FastifyInstance) {
         avatarUrl,
       })
 
-      if (result.status === 'error') return res.status(result.code).send(result)
+      if (result.status === 'error')
+        return res.status(result.code).send({
+          message: result.message,
+        })
 
-      return res.status(result.code).send(result)
+      return res.status(result.code).send()
     },
   )
 }

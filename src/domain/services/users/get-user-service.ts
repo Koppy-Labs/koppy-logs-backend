@@ -4,10 +4,10 @@ import { error, success } from '@/utils/api-response'
 export async function getUserService({ id }: { id: string }) {
   const user = await findUserById({ id })
 
-  if (!user) return error({ message: 'User not found', code: 404 })
+  if (!user) return error({ message: 'User not found' as const, code: 404 })
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { password, ...userWithoutPassword } = user
+  const { password: _password, ...userWithoutPassword } = user
 
   return success({
     data: userWithoutPassword,

@@ -9,5 +9,10 @@ export async function createServer({
   imageUrl,
   plan,
 }: InsertServerModel) {
-  await db.insert(servers).values({ name, ownerId, imageUrl, plan })
+  const server = await db
+    .insert(servers)
+    .values({ name, ownerId, imageUrl, plan })
+    .returning()
+
+  return server[0]
 }

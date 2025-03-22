@@ -8,17 +8,10 @@ export async function createServerService({
   imageUrl,
   plan,
 }: InsertServerModel) {
-  try {
-    await createServer({ name, ownerId, imageUrl, plan })
+  const server = await createServer({ name, ownerId, imageUrl, plan })
 
-    return success({
-      data: null,
-      code: 204,
-    })
-  } catch (error) {
-    return error({
-      message: 'Failed to create server',
-      code: 500,
-    })
-  }
+  return success({
+    data: server,
+    code: 204,
+  })
 }

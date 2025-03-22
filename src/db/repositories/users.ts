@@ -7,7 +7,9 @@ import { db } from '../index'
 import { users } from '../schemas'
 
 export async function insertUser(user: InsertUserModel) {
-  await db.insert(users).values(user).returning()
+  const [newUser] = await db.insert(users).values(user).returning()
+
+  return newUser
 }
 
 export async function findUserByEmail({ email }: { email: string }) {

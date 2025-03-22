@@ -11,20 +11,22 @@ export async function updateUserService({
 }) {
   const user = await findUserById({ id })
 
-  if (!user) {
+  if (!user)
     return error({
-      message: 'User not found',
+      message: 'User not found' as const,
       code: 404,
     })
-  }
 
   await updateUser({
     id,
     data,
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { password: _password, ...userWithoutPassword } = user
+
   return success({
-    data: null,
+    data: userWithoutPassword,
     code: 204,
   })
 }
