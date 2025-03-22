@@ -77,6 +77,7 @@ export async function fetchCategories({
     .limit(limit)
     .offset(offset)
     .where(eq(categories.serverId, serverId))
+    .orderBy(categories.name)
 
   return queriedCategories
 }
@@ -92,5 +93,7 @@ export async function updateCategory({ id, data }: UpdateCategoryModel) {
 }
 
 export async function deleteCategory({ id }: Pick<Category, 'id'>) {
-  await db.delete(categories).where(eq(categories.id, id))
+  const result = await db.delete(categories).where(eq(categories.id, id))
+
+  return result.rowCount > 0
 }
