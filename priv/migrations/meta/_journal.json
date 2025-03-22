@@ -8,6 +8,13 @@
       "when": 1742069597957,
       "tag": "20250315201317_update_db_to_postrgres",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1742614536137,
+      "tag": "20250322033536_update default fn",
+      "breakpoints": true
     }
   ]
 }
