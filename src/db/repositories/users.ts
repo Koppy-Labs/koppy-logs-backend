@@ -1,7 +1,6 @@
 import { eq } from 'drizzle-orm'
 
 import type { InsertUserModel, UpdateUserModel } from '@/domain/entities/user'
-import { BadRequestError } from '@/http/errors/bad-request-error'
 
 import { db } from '../index'
 import { users } from '../schemas'
