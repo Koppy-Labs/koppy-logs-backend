@@ -23,7 +23,7 @@ export async function findUserByEmail({ email }: { email: string }) {
 export async function findUserById({ id }: { id: string }) {
   const user = await db.select().from(users).where(eq(users.id, id))
 
-  if (!user || user.length <= 0) throw new BadRequestError('User not found')
+  if (!user || user.length <= 0) return null
 
   return user[0]
 }
