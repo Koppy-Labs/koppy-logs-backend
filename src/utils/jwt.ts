@@ -2,7 +2,7 @@ import * as jose from 'jose'
 
 import { env } from '@/env'
 
-export const secret = new TextEncoder().encode(env.JWT_SECRET)
+export const secret = new TextEncoder().encode(env.app.JWT_SECRET)
 
 interface IPayload {
   sub: string

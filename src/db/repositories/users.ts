@@ -35,7 +35,13 @@ export async function updateUser({
   id: string
   data: UpdateUserModel
 }) {
-  await db.update(users).set(data).where(eq(users.id, id))
+  const [updatedUser] = await db
+    .update(users)
+    .set(data)
+    .where(eq(users.id, id))
+    .returning()
+
+  return updatedUser
 }
 
 export async function deleteUser({ id }: { id: string }) {

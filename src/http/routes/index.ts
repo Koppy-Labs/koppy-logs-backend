@@ -13,14 +13,13 @@ import { fetchCategoriesRoute } from './categories/fetch-categories-route'
 import { getCategoryRoute } from './categories/get-category-route'
 import { updateCategoryRoute } from './categories/update-category-route'
 import { createServerRoute } from './server/create-server-route'
-import { authenticateUserRoute } from './users/authenticate-user-route'
 import { createUserAccountRoute } from './users/create-user-account-route'
 import { getUserRoute } from './users/get-user-route'
 import { updateUserRoute } from './users/update-user-route'
 import { createLogRoute } from './websocket/create-log-route'
 
 export function routes(app: FastifyInstance) {
-  if (env.APP_ENV === 'dev')
+  if (env.app.APP_ENV === 'dev')
     app.register(fastifySwaggerUi, {
       routePrefix: '/docs',
     })
@@ -31,13 +30,12 @@ export function routes(app: FastifyInstance) {
   app.register(fastifyCookie)
 
   app.register(fastifyJwt, {
-    secret: env.JWT_SECRET,
+    secret: env.app.JWT_SECRET,
   })
 
   app.register(fastifyMultipart)
 
   app.register(createUserAccountRoute)
-  app.register(authenticateUserRoute)
   app.register(getUserRoute)
   app.register(updateUserRoute)
   app.register(createCategoryRoute)
@@ -50,5 +48,5 @@ export function routes(app: FastifyInstance) {
 }
 
 function getCorsOrigin() {
-  return env.APP_ENV === 'prod' ? env.CLIENT_URL : '*'
+  return env.app.APP_ENV === 'prod' ? env.app.CLIENT_URL : '*'
 }
