@@ -46,6 +46,15 @@ export async function getCategoryById({ id }: Pick<Category, 'id'>) {
   return category[0]
 }
 
+export async function fetchCategories({ serverId }: { serverId: string }) {
+  const queriedCategories = await db
+    .select()
+    .from(categories)
+    .where(eq(categories.serverId, serverId))
+
+  return queriedCategories
+}
+
 export async function updateCategory({ id, data }: UpdateCategoryModel) {
   const [category] = await db
     .update(categories)
