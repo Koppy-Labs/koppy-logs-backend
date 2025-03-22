@@ -7,12 +7,12 @@ import type { FastifyInstance } from 'fastify'
 
 import { env } from '@/env'
 
-import { createLogRoute } from '../websocket/create-log-route'
 import { createCategoryRoute } from './categories/create-categorie-route'
 import { authenticateUserRoute } from './users/authenticate-user-route'
 import { createUserAccountRoute } from './users/create-user-account-route'
 import { getUserRoute } from './users/get-user-route'
 import { updateUserRoute } from './users/update-user-route'
+import { createLogRoute } from './websocket/create-log-route'
 
 export function routes(app: FastifyInstance) {
   if (env.APP_ENV === 'dev')

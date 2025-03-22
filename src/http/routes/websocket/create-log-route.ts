@@ -5,7 +5,13 @@ import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 import { logs } from '@/db/schemas'
-import { createLogService } from '@/domain/services/logs/create-log-service'
+import { createLogService } from '@/domain/services/log/create-log-service'
+
+const logSchema = z.object({
+  serverId: z.string(),
+  message: z.string(),
+  categoryId: z.string(),
+})
 
 export async function createLogRoute(app: FastifyInstance) {
   app.register(fastifyWebsocket)
@@ -23,7 +29,12 @@ export async function createLogRoute(app: FastifyInstance) {
     async (socket) => {
       socket.on('message', async (message) => {
         const data = JSON.parse(message.toString())
-        await createLogService(data)
+
+        const log = logSchema.safeParse(data)
+
+        if (!log.success) return
+
+        await createLogService(log.data)
       })
     },
   )

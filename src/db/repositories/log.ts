@@ -4,5 +4,7 @@ import { db } from '..'
 import { logs } from '../schemas'
 
 export async function createLog(log: InsertLogModel) {
-  await db.insert(logs).values(log)
+  const [newLog] = await db.insert(logs).values(log).returning()
+
+  return newLog
 }

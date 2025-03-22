@@ -1,10 +1,11 @@
 import { FastifyInstance } from 'fastify'
+import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { InsertCategoryModel } from '@/domain/entities/categories'
 import { createCategoryService } from '@/domain/services/categories/create-categorie-service'
+
 export async function createCategoryRoute(app: FastifyInstance) {
-  app.post(
+  app.withTypeProvider<ZodTypeProvider>().post(
     '/categories',
     {
       schema: {
@@ -18,7 +19,7 @@ export async function createCategoryRoute(app: FastifyInstance) {
     async (req) => {
       await req.getCurrentUserId()
 
-      const { serverId, name } = req.body as InsertCategoryModel
+      const { serverId, name } = req.body
 
       await createCategoryService({ serverId, name })
     },

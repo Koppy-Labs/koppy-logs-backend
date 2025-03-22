@@ -1,8 +1,32 @@
+import { and, eq } from 'drizzle-orm'
+
 import { InsertCategoryModel } from '@/domain/entities/categories'
 
 import { db } from '..'
 import { categories } from '../schemas'
 
 export async function createCategory({ serverId, name }: InsertCategoryModel) {
-  await db.insert(categories).values({ serverId, name })
+  const [category] = await db
+    .insert(categories)
+    .values({ serverId, name })
+    .returning()
+
+  return category
+}
+
+export async function getCategoryByName({
+  serverId,
+  name,
+}: {
+  serverId: string
+  name: string
+}) {
+  const category = await db
+    .select()
+    .from(categories)
+    .where(and(eq(categories.serverId, serverId), eq(categories.name, name)))
+
+  if (!category || category.length === 0) return null
+
+  return category[0]
 }
