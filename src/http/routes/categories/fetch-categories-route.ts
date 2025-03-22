@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
-import { fetchCategoriesService } from '@/domain/services/categories/fetch-gategories-service'
+import { fetchCategoriesService } from '@/domain/services/categories/fetch-categories-service'
 import { auth } from '@/http/middleware/auth'
 import { getUserPermissions } from '@/utils/get-user-permissions'
 
