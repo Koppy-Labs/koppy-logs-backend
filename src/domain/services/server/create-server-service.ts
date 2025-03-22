@@ -1,6 +1,7 @@
 import { createServer } from '@/db/repositories/server'
-import { InsertServerModel } from '@/domain/entities/server'
+import { InsertServerModel, type Server } from '@/domain/entities/server'
 import { success } from '@/utils/api-response'
+import { getCache } from '@/utils/cache'
 
 export async function createServerService({
   name,
@@ -8,8 +9,16 @@ export async function createServerService({
   imageUrl,
   plan,
 }: InsertServerModel) {
-  const server = await createServer({ name, ownerId, imageUrl, plan })
+  const cacheKey = `servers:${ownerId}`
+  const cachedServers = await getCache<Server[]>(cacheKey)
 
+  if (cachedServers)
+    return success({
+      data: cachedServers,
+      code: 200,
+    })
+
+  const server = await createServer({ name, ownerId, imageUrl, plan })
   return success({
     data: server,
     code: 204,
