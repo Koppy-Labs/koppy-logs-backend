@@ -7,19 +7,15 @@ export async function deleteCategoryService({ id }: { id: string }) {
   const cacheKey = `categories:${id}`
   const cachedCategory = await getCache<Category>(cacheKey)
 
-  if (!cachedCategory)
-    return error({
-      message: 'Category not found' as const,
-      code: 404,
-    })
+  if (!cachedCategory) {
+    const category = await getCategoryById({ id })
 
-  const category = await getCategoryById({ id })
-
-  if (!category)
-    return error({
-      message: 'Category not found' as const,
-      code: 404,
-    })
+    if (!category)
+      return error({
+        message: 'Category not found' as const,
+        code: 404,
+      })
+  }
 
   await deleteCategory({ id })
   await deleteCache(cacheKey)

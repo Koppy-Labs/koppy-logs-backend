@@ -16,7 +16,7 @@ export async function createCategoryService({
   if (cachedCategory)
     return error({
       message: 'Category already exists',
-      code: 400,
+      code: 409,
     })
 
   const category = await getCategoryByName({ serverId, name })
@@ -26,7 +26,7 @@ export async function createCategoryService({
 
     return error({
       message: 'Category already exists',
-      code: 400,
+      code: 409,
     })
   }
 
@@ -36,6 +36,6 @@ export async function createCategoryService({
 
   return success({
     data: newCategory,
-    code: 204,
+    code: 201,
   })
 }
