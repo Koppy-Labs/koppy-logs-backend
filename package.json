@@ -22,6 +22,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@casl/ability": "^6.7.3",
     "@fastify/cookie": "^11.0.2",
     "@fastify/cors": "^11.0.0",
     "@fastify/jwt": "^9.1.0",

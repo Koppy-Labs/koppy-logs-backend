@@ -3,9 +3,10 @@ import { relations } from 'drizzle-orm'
 import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 
 import { servers } from './servers'
+import { serverMembers } from './servers-members'
 
 export const users = pgTable('users', {
-  id: text('id').primaryKey().default(createId()),
+  id: text('id').primaryKey().$defaultFn(createId),
 
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
@@ -23,4 +24,5 @@ export const users = pgTable('users', {
 
 export const usersRelations = relations(users, ({ many }) => ({
   servers: many(servers),
+  memberAt: many(serverMembers),
 }))

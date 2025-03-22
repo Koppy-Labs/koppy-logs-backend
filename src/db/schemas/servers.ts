@@ -7,7 +7,7 @@ import { logs } from './logs'
 import { users } from './users'
 
 export const servers = pgTable('servers', {
-  id: text('id').primaryKey().default(createId()),
+  id: text('id').primaryKey().$default(createId),
   name: text('name').notNull(),
   ownerId: text('owner_id')
     .notNull()

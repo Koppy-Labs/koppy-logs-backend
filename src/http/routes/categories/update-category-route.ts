@@ -2,8 +2,11 @@ import type { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
+import { findUserById } from '@/db/repositories/users'
 import { updateCategoryService } from '@/domain/services/categories/update-category-service'
 import { auth } from '@/http/middleware/auth'
+import { serverSchema } from '@/perms/models/server'
+import { getUserPermissions } from '@/utils/get-user-permissions'
 
 export async function updateCategoryRoute(app: FastifyInstance) {
   app
@@ -24,9 +27,30 @@ export async function updateCategoryRoute(app: FastifyInstance) {
         },
       },
       async (req, res) => {
-        await req.getCurrentUserId()
-
+        const { sub: userId } = await req.getCurrentUserId()
         const { id, serverId } = req.params
+        const { role } = await req.getMembership({
+          userId,
+          serverId,
+        })
+
+        const user = await findUserById({ id: userId })
+
+        const { cannot } = getUserPermissions({
+          ...user,
+          role: role as 'ADMIN' | 'MEMBER',
+        })
+
+        const authServer = serverSchema.parse({
+          id: serverId,
+          ownerId: user.id,
+        })
+
+        if (cannot('update', authServer))
+          return res.status(403).send({
+            message: 'Unauthorized' as const,
+          })
+
         const { name } = req.body
 
         const result = await updateCategoryService({
