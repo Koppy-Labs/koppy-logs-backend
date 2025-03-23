@@ -1,5 +1,6 @@
 export * from './categories'
 export * from './logs'
+export * from './password-recovery-request'
 export * from './servers'
 export * from './servers-members'
 export * from './sessions'

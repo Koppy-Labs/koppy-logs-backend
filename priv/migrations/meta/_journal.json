@@ -15,6 +15,13 @@
       "when": 1742740599756,
       "tag": "20250323143639_add_sessions",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1742741282248,
+      "tag": "20250323144802_add_password_recovery_request",
+      "breakpoints": true
     }
   ]
 }
