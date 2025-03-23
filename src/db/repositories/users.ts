@@ -56,3 +56,19 @@ export async function updatePassword({
 }) {
   await db.update(users).set({ password }).where(eq(users.id, id))
 }
+
+export async function updateUserVerified({
+  id,
+  verified,
+}: {
+  id: string
+  verified: boolean
+}) {
+  const [updatedUser] = await db
+    .update(users)
+    .set({ verified })
+    .where(eq(users.id, id))
+    .returning()
+
+  return updatedUser
+}
