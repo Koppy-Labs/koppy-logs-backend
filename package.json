@@ -10,6 +10,7 @@
     "db:migrate:test": "bun --env-file=.env.test drizzle-kit migrate",
     "db:reset:test": "dropdb -h localhost -U postgres koppy_logs_test && createdb -h localhost -U postgres koppy_logs_test && bun --env-file=.env.test drizzle-kit push",
     "db:studio": "drizzle-kit studio",
+    "db:studio:test": "bun --env-file=.env.test drizzle-kit studio",
     "lint": "bun eslint --fix src --ext .ts",
     "test": "bun --env-file=.env.test vitest --watch"
   },

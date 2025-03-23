@@ -1,4 +1,5 @@
 import { and, eq, ne } from 'drizzle-orm'
+import { C } from 'vitest/dist/chunks/reporters.d.CqBhtcTq'
 
 import type { InsertSessionModel, Session } from '@/domain/entities/sessions'
 
@@ -6,7 +7,9 @@ import { db } from '..'
 import { sessions } from '../schemas'
 
 export async function createSession(data: InsertSessionModel) {
-  return await db.insert(sessions).values(data).returning()
+  const session = await db.insert(sessions).values(data).returning()
+
+  return session[0]
 }
 
 export async function findSessionByUserIdIpAddressAndUserAgent({
@@ -18,7 +21,7 @@ export async function findSessionByUserIdIpAddressAndUserAgent({
   ipAddress: string
   userAgent: string
 }) {
-  return await db
+  const session = await db
     .select()
     .from(sessions)
     .where(
@@ -28,6 +31,10 @@ export async function findSessionByUserIdIpAddressAndUserAgent({
         eq(sessions.userAgent, userAgent),
       ),
     )
+
+  if (!session || session.length <= 0) return null
+
+  return session[0]
 }
 
 export async function findSessionById({
@@ -54,10 +61,14 @@ export async function findSessionByToken({
   token: string
   userId: string
 }) {
-  return await db
+  const session = await db
     .select()
     .from(sessions)
     .where(and(eq(sessions.token, token), eq(sessions.userId, userId)))
+
+  if (!session || session.length <= 0) return null
+
+  return session[0]
 }
 
 export async function findSessionByIdIpAndUserAgent({
