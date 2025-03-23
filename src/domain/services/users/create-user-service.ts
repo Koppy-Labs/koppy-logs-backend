@@ -1,4 +1,5 @@
 import { findUserByEmail, insertUser } from '@/db/repositories/users'
+import { generateOTPCode } from '@/db/repositories/verify-account'
 import type { InsertUserModel, User } from '@/domain/entities/user'
 import { error, success } from '@/utils/api-response'
 import { getCache, ONE_DAY_IN_SECONDS, setCache } from '@/utils/cache'
@@ -45,10 +46,15 @@ export async function createUserService({
     avatarUrl,
   })
 
+  const otpCode = await generateOTPCode({ email: normalizedEmail })
+
   await setCache(cacheKey, JSON.stringify(createdUser), ONE_DAY_IN_SECONDS)
 
   return success({
-    data: createdUser,
+    data: {
+      user: createdUser,
+      otpCode,
+    },
     code: 201,
   })
 }

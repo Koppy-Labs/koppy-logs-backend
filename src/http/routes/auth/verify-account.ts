@@ -5,7 +5,7 @@ import { z } from 'zod'
 
 import { ResendAdapter } from '@/adapters/resend'
 import { verifyAccount } from '@/domain/services/auth/verify-account'
-import { RiseWelcomeEmail } from '@/emails/welcome-email'
+import { WelcomeEmail } from '@/emails/welcome-email'
 
 export async function verifyAccountRoute(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().patch(
@@ -14,21 +14,29 @@ export async function verifyAccountRoute(app: FastifyInstance) {
       schema: {
         tags: ['auth'],
         summary: 'Verify account',
-        querystring: z.object({
+        body: z.object({
           email: z.string(),
+          code: z.string(),
         }),
         response: {
           204: z.null(),
+          400: z.object({
+            message: z.enum([
+              'Invalid OTP code',
+              'User is already verified',
+              'OTP code expired',
+            ]),
+          }),
           404: z.object({
-            message: z.enum(['User is already verified', 'User not found']),
+            message: z.enum(['User not found']),
           }),
         },
       },
     },
     async (req, res) => {
-      const { email } = req.query
+      const { email, code } = req.body
 
-      const result = await verifyAccount({ email })
+      const result = await verifyAccount({ email, code })
 
       if (result.status === 'error')
         return res.status(result.code).send({
@@ -36,8 +44,8 @@ export async function verifyAccountRoute(app: FastifyInstance) {
         })
 
       const emailMessage = await render(
-        RiseWelcomeEmail({
-          firstName: result.data.firstName,
+        WelcomeEmail({
+          name: result.data.name,
         }),
         {
           pretty: true,
@@ -48,7 +56,7 @@ export async function verifyAccountRoute(app: FastifyInstance) {
         {
           to: [email],
           html: emailMessage,
-          subject: 'Welcome to Rise',
+          subject: 'Welcome to Koppy Logs',
         },
         'welcome',
       )

@@ -1,8 +1,11 @@
+import { render } from '@react-email/components'
 import type { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
+import { ResendAdapter } from '@/adapters/resend'
 import { createUserService } from '@/domain/services/users/create-user-service'
+import { AccountCreationEmail } from '@/emails/account-created-email'
 import { passwordSchema } from '@/utils/password'
 
 export async function createUserAccountRoute(app: FastifyInstance) {
@@ -40,6 +43,26 @@ export async function createUserAccountRoute(app: FastifyInstance) {
         return res.status(result.code).send({
           message: result.message,
         })
+
+      const emailMessage = await render(
+        AccountCreationEmail({
+          email,
+          name: result.data.user.name,
+          verificationCode: result.data.otpCode,
+        }),
+        {
+          pretty: true,
+        },
+      )
+
+      await ResendAdapter.sendEmail(
+        {
+          to: [email],
+          html: emailMessage,
+          subject: 'Welcome to Koppy Logs',
+        },
+        'welcome',
+      )
 
       return res.status(result.code).send()
     },
