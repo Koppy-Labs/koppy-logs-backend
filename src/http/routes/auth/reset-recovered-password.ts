@@ -18,6 +18,9 @@ export async function resetRecoveredPasswordRoute(app: FastifyInstance) {
         }),
         response: {
           204: z.null(),
+          401: z.object({
+            message: z.literal('Recovery request expired'),
+          }),
           404: z.object({
             message: z.enum(['Request not found', 'User not found']),
           }),
