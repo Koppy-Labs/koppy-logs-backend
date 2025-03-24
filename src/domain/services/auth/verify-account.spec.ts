@@ -19,7 +19,7 @@ describe('VerifyAccount', () => {
 
     const result = await sut({
       email: user.email,
-      code: otpCode,
+      code: otpCode.id,
     })
 
     expect(result).toBeDefined()

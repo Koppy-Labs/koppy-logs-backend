@@ -27,7 +27,6 @@ describe('CreateUserService', () => {
     if (result.status !== 'ok') throw new Error('User not created')
 
     expect(result.data).toEqual({
-      otpCode: expect.any(String),
       user: {
         name: rawUser.name,
         id: expect.any(String),
@@ -37,6 +36,8 @@ describe('CreateUserService', () => {
         updatedAt: expect.any(Date),
         verified: false,
       },
+      verificationCode: expect.any(String),
+      verificationToken: expect.any(String),
     })
   })
 

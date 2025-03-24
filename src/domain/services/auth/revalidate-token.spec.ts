@@ -88,7 +88,7 @@ describe('RevalidateToken', () => {
     expect(result.message).toBe('Session revoked')
   })
 
-  it.only('should not be able to revalidate with an invalid session ID', async () => {
+  it('should not be able to revalidate with an invalid session ID', async () => {
     const user = await makeUser()
     const invalidSessionId = createId()
 
