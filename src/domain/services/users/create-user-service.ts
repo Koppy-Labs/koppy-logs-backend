@@ -53,7 +53,8 @@ export async function createUserService({
   return success({
     data: {
       user: createdUser,
-      otpCode,
+      verificationToken: otpCode.token,
+      verificationCode: otpCode.token,
     },
     code: 201,
   })

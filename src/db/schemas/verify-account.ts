@@ -10,6 +10,8 @@ export const verifyAccount = pgTable('verify_account', {
     .notNull()
     .references(() => users.email),
 
+  token: text('token').notNull().unique().$defaultFn(createId),
+
   createdAt: timestamp('created_at').notNull().defaultNow(),
 })
 

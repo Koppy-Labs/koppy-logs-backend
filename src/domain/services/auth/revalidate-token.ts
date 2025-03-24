@@ -23,9 +23,30 @@ export async function revalidateToken({
   const cacheKey = `session:${jti}:${userId}:${ipAddress}:${userAgent}`
   const cachedSession = await getCache<Session>(cacheKey)
 
-  let session = cachedSession
+  let session: Session | null = null
 
-  if (!session) {
+  if (cachedSession) {
+    const dbSession = await findSessionByIdIpAndUserAgent({
+      id: jti,
+      userId,
+      ipAddress,
+      userAgent,
+    })
+
+    if (!dbSession) {
+      return error({
+        message: 'Session not found' as const,
+        code: 404,
+      })
+    }
+
+    if (dbSession.refreshedAt !== cachedSession.refreshedAt) {
+      session = dbSession
+      await setCache(cacheKey, JSON.stringify(session), ONE_WEEK_IN_SECONDS)
+    } else {
+      session = cachedSession
+    }
+  } else {
     session = await findSessionByIdIpAndUserAgent({
       id: jti,
       userId,
@@ -66,6 +87,20 @@ export async function revalidateToken({
   })
 
   await updateSessionRefreshedAt(session.id, session.userId)
+
+  const updatedSession = await findSessionByIdIpAndUserAgent({
+    id: jti,
+    userId,
+    ipAddress,
+    userAgent,
+  })
+
+  if (updatedSession)
+    await setCache(
+      cacheKey,
+      JSON.stringify(updatedSession),
+      ONE_WEEK_IN_SECONDS,
+    )
 
   return success({
     data: refreshToken,

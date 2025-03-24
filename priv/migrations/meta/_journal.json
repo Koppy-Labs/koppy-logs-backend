@@ -29,6 +29,13 @@
       "when": 1742741790367,
       "tag": "20250323145630_add_verified_to_users",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1742772482642,
+      "tag": "20250323232802_add_verify_acc",
+      "breakpoints": true
     }
   ]
 }

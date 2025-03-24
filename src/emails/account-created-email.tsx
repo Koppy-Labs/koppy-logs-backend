@@ -11,12 +11,16 @@ import {
   Text,
 } from '@react-email/components'
 
+import { env } from '@/env'
+
 export function AccountCreationEmail({
   name,
+  verificationToken,
   verificationCode,
   email,
 }: {
   name: string
+  verificationToken: string
   verificationCode: string
   email: string
 }) {
@@ -43,7 +47,7 @@ export function AccountCreationEmail({
 
               <Button
                 className="bg-[#f5f5f5] hover:bg-[#e5e5e5] text-black font-medium py-[12px] px-[24px] rounded-[6px] text-[16px] no-underline text-center block box-border"
-                href={`https://koppylogs.com/verify-account?email=${email}&code=${verificationCode}`}
+                href={`${env.app.CLIENT_URL}/verify-account?email=${email}&code=${verificationToken}`}
               >
                 Ativar Minha Conta
               </Button>
@@ -95,14 +99,6 @@ export function AccountCreationEmail({
               </Text>
               <Text className="m-0">
                 Av. Paulista, 1000, São Paulo, SP, Brasil
-              </Text>
-              <Text className="m-0">
-                <a
-                  href="https://koppylogs.com/cancelar-inscricao"
-                  className="text-[#71717a] underline"
-                >
-                  Cancelar inscrição
-                </a>
               </Text>
             </Section>
           </Container>

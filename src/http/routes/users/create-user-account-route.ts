@@ -48,7 +48,8 @@ export async function createUserAccountRoute(app: FastifyInstance) {
         AccountCreationEmail({
           email,
           name: result.data.user.name,
-          verificationCode: result.data.otpCode,
+          verificationToken: result.data.verificationToken,
+          verificationCode: result.data.verificationToken,
         }),
         {
           pretty: true,

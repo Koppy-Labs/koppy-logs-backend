@@ -1,8 +1,10 @@
-import {
-  deleteRecoveryRequestById,
-  findRecoveryRequestById,
-} from '@/db/repositories/password-recovery-request'
-import { findUserById, updatePassword } from '@/db/repositories/users'
+import { addDays, isAfter } from 'date-fns'
+import { eq } from 'drizzle-orm'
+
+import { db } from '@/db'
+import { findRecoveryRequestById } from '@/db/repositories/password-recovery-request'
+import { findUserById } from '@/db/repositories/users'
+import { passwordRecoveryRequest, users } from '@/db/schemas'
 import type { User } from '@/domain/entities/user'
 import { error, success } from '@/utils/api-response'
 import {
@@ -48,10 +50,24 @@ export async function resetPasswordService({
       code: 404,
     })
 
+  if (isAfter(new Date(), addDays(recoveryRequest.createdAt, 1)))
+    return error({
+      message: 'Recovery request expired' as const,
+      code: 401,
+    })
+
   const hashedPassword = await hashPassword(password)
 
-  await updatePassword({ id: user.id, password: hashedPassword })
-  await deleteRecoveryRequestById({ id: code })
+  await db.transaction(async (tx) => {
+    await tx
+      .update(users)
+      .set({ password: hashedPassword })
+      .where(eq(users.id, user.id))
+    await tx
+      .delete(passwordRecoveryRequest)
+      .where(eq(passwordRecoveryRequest.id, code))
+  })
+
   await deleteCache(`user:${user.id}:*`)
   await deleteCache(`user:${user.email}:*`)
 

@@ -3,11 +3,18 @@ import { eq } from 'drizzle-orm'
 import { db } from '..'
 import { passwordRecoveryRequest } from '../schemas/password-recovery-request'
 
-export async function createRecoveryRequest({ userId }: { userId: string }) {
+export async function createRecoveryRequest({
+  userId,
+  createdAt,
+}: {
+  userId: string
+  createdAt?: Date
+}) {
   const recoveryRequest = await db
     .insert(passwordRecoveryRequest)
     .values({
       userId,
+      createdAt: createdAt || undefined,
     })
     .returning()
 

@@ -3,6 +3,7 @@ import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 
 import { resetPasswordService } from '@/domain/services/auth/reset-password'
+import { passwordSchema } from '@/utils/password'
 
 export async function resetRecoveredPasswordRoute(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().patch(
@@ -13,7 +14,7 @@ export async function resetRecoveredPasswordRoute(app: FastifyInstance) {
         summary: 'Reset recovered password',
         body: z.object({
           code: z.string(),
-          password: z.string(),
+          password: passwordSchema,
         }),
         response: {
           204: z.null(),

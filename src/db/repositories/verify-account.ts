@@ -4,9 +4,9 @@ import { db } from '@/db'
 import { verifyAccount } from '@/db/schemas/verify-account'
 
 export async function generateOTPCode({ email }: { email: string }) {
-  const otpCode = await db.insert(verifyAccount).values({ email }).returning()
+  const otp = await db.insert(verifyAccount).values({ email }).returning()
 
-  return otpCode[0].id
+  return otp[0]
 }
 
 export async function getOTPCode({

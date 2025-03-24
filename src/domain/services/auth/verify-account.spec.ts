@@ -1,3 +1,4 @@
+import { generateOTPCode } from '@/db/repositories/verify-account'
 import { makeUser } from '@/test/factories/make-user'
 
 import { verifyAccount } from './verify-account'
@@ -14,8 +15,11 @@ describe('VerifyAccount', () => {
       verified: false,
     })
 
+    const otpCode = await generateOTPCode({ email: user.email })
+
     const result = await sut({
       email: user.email,
+      code: otpCode,
     })
 
     expect(result).toBeDefined()

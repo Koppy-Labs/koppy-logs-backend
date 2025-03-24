@@ -1,5 +1,4 @@
 import { and, eq, ne } from 'drizzle-orm'
-import { C } from 'vitest/dist/chunks/reporters.d.CqBhtcTq'
 
 import type { InsertSessionModel, Session } from '@/domain/entities/sessions'
 
@@ -185,16 +184,6 @@ export async function deleteSessionByToken({
 }
 
 export async function deleteAllSessionsByUserId({
-  userId,
-}: {
-  userId: string
-}) {
-  await db
-    .delete(sessions)
-    .where(and(eq(sessions.userId, userId), eq(sessions.status, 'active')))
-}
-
-export async function deleteAllSessionsUserSession({
   userId,
 }: {
   userId: string

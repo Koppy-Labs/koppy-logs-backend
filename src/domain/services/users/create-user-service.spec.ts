@@ -26,16 +26,18 @@ describe('CreateUserService', () => {
     expect(result.code).toBe(201)
     if (result.status !== 'ok') throw new Error('User not created')
 
-    expect(result.data).toEqual(
-      expect.objectContaining({
+    expect(result.data).toEqual({
+      otpCode: expect.any(String),
+      user: {
         name: rawUser.name,
         id: expect.any(String),
         email: rawUser.email.toLocaleLowerCase(),
         avatarUrl: rawUser.avatarUrl ?? undefined,
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
-      }),
-    )
+        verified: false,
+      },
+    })
   })
 
   it('should not be able to create a user with an already registered email', async () => {

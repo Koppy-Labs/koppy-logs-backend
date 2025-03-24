@@ -19,11 +19,12 @@ export async function authenticateUserRoute(app: FastifyInstance) {
         body: z.object({
           email: z.string().email(),
           password: passwordSchema,
-          ipAddress: z.string().ip(),
-          userAgent: z.string(),
         }),
         response: {
           204: z.null(),
+          400: z.object({
+            message: z.literal('IP address and user agent are required'),
+          }),
           401: z.object({
             message: z.literal('Invalid credentials'),
           }),
@@ -36,7 +37,15 @@ export async function authenticateUserRoute(app: FastifyInstance) {
       },
     },
     async (req, res) => {
-      const { email, password, ipAddress, userAgent } = req.body
+      const { email, password } = req.body
+
+      const ipAddress = req.headers['CF-Connecting-IP'] as string | null
+      const userAgent = req.headers['X-Forwarded-For'] as string | null
+
+      if (!ipAddress || !userAgent)
+        return res.status(400).send({
+          message: 'IP address and user agent are required',
+        })
 
       const result = await authenticateUserService({
         email,

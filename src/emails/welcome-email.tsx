@@ -11,6 +11,8 @@ import {
   Text,
 } from '@react-email/components'
 
+import { env } from '@/env'
+
 export function WelcomeEmail({ name }: { name: string }) {
   return (
     <Html>
@@ -40,7 +42,7 @@ export function WelcomeEmail({ name }: { name: string }) {
 
               <Button
                 className="bg-[#f5f5f5] hover:bg-[#e5e5e5] text-black font-medium py-[12px] px-[24px] rounded-[6px] text-[16px] no-underline text-center block box-border"
-                href="https://logs.koppy.app/server/setup"
+                href={`${env.app.CLIENT_URL}/server/setup`}
               >
                 Completar Configuração
               </Button>
@@ -69,14 +71,6 @@ export function WelcomeEmail({ name }: { name: string }) {
               </Text>
               <Text className="m-0">
                 Av. Paulista, 1000, São Paulo, SP, Brasil
-              </Text>
-              <Text className="m-0">
-                <a
-                  href="https://koppylogs.com/cancelar-inscricao"
-                  className="text-[#71717a] underline"
-                >
-                  Cancelar inscrição
-                </a>
               </Text>
             </Section>
           </Container>
