@@ -10,12 +10,14 @@
     "db:migrate:test": "bun --env-file=.env.test drizzle-kit migrate",
     "db:reset:test": "dropdb -h localhost -U postgres koppy_logs_test && createdb -h localhost -U postgres koppy_logs_test && bun --env-file=.env.test drizzle-kit push",
     "db:studio": "drizzle-kit studio",
+    "db:studio:test": "bun --env-file=.env.test drizzle-kit studio",
     "lint": "bun eslint --fix src --ext .ts",
     "test": "bun --env-file=.env.test vitest --watch"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.2.2",
     "@types/bun": "latest",
+    "@types/react": "^19.0.12",
     "@types/ws": "^8.18.0",
     "drizzle-kit": "^0.30.5",
     "eslint": "8.57.0",
@@ -38,7 +40,9 @@
     "@fastify/websocket": "^11.0.2",
     "@libsql/client": "^0.14.0",
     "@paralleldrive/cuid2": "^2.2.2",
+    "@react-email/components": "^0.0.34",
     "bcryptjs": "^3.0.2",
+    "date-fns": "^4.1.0",
     "drizzle-orm": "^0.40.0",
     "drizzle-zod": "^0.7.0",
     "fastify": "^5.2.1",
@@ -48,6 +52,7 @@
     "pg": "^8.14.0",
     "pino": "^9.6.0",
     "pino-pretty": "^13.0.0",
+    "resend": "^4.1.2",
     "zod": "^3.24.2"
   }
 }

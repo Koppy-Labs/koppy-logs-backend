@@ -8,6 +8,34 @@
       "when": 1742668406864,
       "tag": "20250322183326_add_base_db_structure",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1742740599756,
+      "tag": "20250323143639_add_sessions",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1742741282248,
+      "tag": "20250323144802_add_password_recovery_request",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1742741790367,
+      "tag": "20250323145630_add_verified_to_users",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1742772482642,
+      "tag": "20250323232802_add_verify_acc",
+      "breakpoints": true
     }
   ]
 }

@@ -4,6 +4,7 @@ import { z } from 'zod'
 
 import { updateUserService } from '@/domain/services/users/update-user-service'
 import { auth } from '@/http/middleware/auth'
+import { passwordSchema } from '@/utils/password'
 
 export async function updateUserRoute(app: FastifyInstance) {
   app
@@ -16,7 +17,7 @@ export async function updateUserRoute(app: FastifyInstance) {
         body: z.object({
           name: z.string().optional(),
           email: z.string().optional(),
-          password: z.string().optional(),
+          password: passwordSchema.optional(),
           avatarUrl: z.string().optional(),
         }),
         params: z.object({
@@ -24,6 +25,9 @@ export async function updateUserRoute(app: FastifyInstance) {
         }),
         response: {
           204: z.null(),
+          409: z.object({
+            message: z.literal('Email already in use'),
+          }),
           404: z.object({
             message: z.literal('User not found'),
           }),

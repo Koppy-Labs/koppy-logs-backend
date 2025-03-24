@@ -26,6 +26,7 @@ export function makeRawUser(user: RemoveNull<Partial<InsertUserModel>> = {}) {
     createdAt: new Date(),
     updatedAt: new Date(),
     password: faker.internet.password(),
+    verified: faker.datatype.boolean(),
 
     ...user,
   }

@@ -46,3 +46,29 @@ export async function updateUser({
 export async function deleteUser({ id }: { id: string }) {
   await db.delete(users).where(eq(users.id, id))
 }
+
+export async function updatePassword({
+  id,
+  password,
+}: {
+  id: string
+  password: string
+}) {
+  await db.update(users).set({ password }).where(eq(users.id, id))
+}
+
+export async function updateUserVerified({
+  id,
+  verified,
+}: {
+  id: string
+  verified: boolean
+}) {
+  const [updatedUser] = await db
+    .update(users)
+    .set({ verified })
+    .where(eq(users.id, id))
+    .returning()
+
+  return updatedUser
+}
