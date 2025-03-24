@@ -15,8 +15,12 @@ export async function verifyAccountRoute(app: FastifyInstance) {
         tags: ['auth'],
         summary: 'Verify account',
         body: z.object({
-          email: z.string(),
-          code: z.string().describe('The unique verification code sent via email'),
+          email: z.string().email('Invalid email format'),
+          code: z
+            .string()
+            .length(6, 'Verification code must be 6 characters')
+            .regex(/^\d+$/, 'Verification code must contain only digits')
+            .describe('The unique verification code sent via email'),
         }),
         response: {
           204: z.null(),
