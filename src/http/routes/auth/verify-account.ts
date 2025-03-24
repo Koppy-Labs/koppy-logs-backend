@@ -16,7 +16,7 @@ export async function verifyAccountRoute(app: FastifyInstance) {
         summary: 'Verify account',
         body: z.object({
           email: z.string(),
-          code: z.string(),
+          code: z.string().describe('The unique verification code sent via email'),
         }),
         response: {
           204: z.null(),

@@ -13,7 +13,7 @@ export async function resetRecoveredPasswordRoute(app: FastifyInstance) {
         tags: ['auth'],
         summary: 'Reset recovered password',
         body: z.object({
-          code: z.string(),
+          code: z.string().describe('The unique recovery code sent via email'),
           password: passwordSchema,
         }),
         response: {
